@@ -9,7 +9,6 @@ public class FileDB {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String path;
     private String name;
 
 
@@ -21,17 +20,14 @@ public class FileDB {
     public FileDB() {
     }
 
+    public FileDB(String name) {
+        this.name = name;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 
     public Post getPost() {
         return post;
@@ -41,8 +37,7 @@ public class FileDB {
         this.post = post;
     }
 
-    public FileDB(String path, String name, Post post) {
-        this.path = path;
+    public FileDB(String name, Post post) {
         this.name = name;
         this.post = post;
     }

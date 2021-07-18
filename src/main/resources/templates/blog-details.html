@@ -14,7 +14,7 @@
       <h3 th:text="${post.title}" />
       <p th:text="${post.full_text}" />
        <p th:each="file : ${files}">
-           <img class='img-thumbnail' th:src="@{${file.path}}"  /> <br>
+           <img class='img-thumbnail' th:src="@{/uploads/${file.name}}" width="120" height="120" /> <br>
        </p>
        <p><b class="">Views: </b><span th:text="${post.views}" /></p> <br>
       <a th:href="'/blog/' + ${post.id} + '/edit'" class="btn btn-warning">Edit</a><br><br>

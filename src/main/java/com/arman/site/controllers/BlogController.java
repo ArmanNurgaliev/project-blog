@@ -4,7 +4,7 @@ import com.arman.site.models.FileDB;
 import com.arman.site.models.Post;
 import com.arman.site.repository.FileRepository;
 import com.arman.site.repository.PostRepository;
-import com.arman.site.service.FileStorageService;
+import com.arman.site.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.Base64;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,13 +26,13 @@ public class BlogController {
     private String path;
     private PostRepository postRepository;
     private FileRepository fileRepository;
-    private FileStorageService fileStorageService;
+    private StorageService storageService;
 
     @Autowired
-    public BlogController(PostRepository postRepository, FileRepository fileRepository, FileStorageService fileStorageService) {
+    public BlogController(PostRepository postRepository, FileRepository fileRepository, StorageService storageService) {
         this.postRepository = postRepository;
         this.fileRepository = fileRepository;
-        this.fileStorageService = fileStorageService;
+        this.storageService = storageService;
     }
 
     @GetMapping("/blog")
@@ -60,7 +59,7 @@ public class BlogController {
         postRepository.save(post);
         Post postWithId = postRepository.getByTitle(title);
 
-        fileStorageService.store(files, postWithId);
+        storageService.store(files, postWithId);
 
         return "redirect:/blog";
     }
@@ -74,12 +73,10 @@ public class BlogController {
         if(post == null)
             return "redirect:/blog";
 
-      //  Set<Long> filesId = post.getFiles().stream().map(FileDB::getId).collect(Collectors.toSet());
-
-        List<FileDB> files = fileRepository.findAllByPost_id(post.getId());
+        List<FileDB> files = storageService.load(id);
+        model.addAttribute("files", files);
 
         model.addAttribute("post", post);
-        model.addAttribute("files", files);
 
         return "blog-details";
     }

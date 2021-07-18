@@ -11,11 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class FileStorageService {
+public class FileStorageService implements StorageService {
     @Value("${upload.path}")
     private String uploadPath;
     private FileRepository fileRepository;
@@ -25,28 +30,42 @@ public class FileStorageService {
         this.fileRepository = fileRepository;
     }
 
-    public void store(MultipartFile[] files, Post post) throws IOException {
-        for (MultipartFile file: files) {
-            if (files != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath);
-                if (!uploadDir.exists())
-                    uploadDir.mkdir();
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFilename = uuidFile + "." + file.getOriginalFilename();
-                String path = uploadPath + "/" + resultFilename;
-                file.transferTo(new File(path));
-                FileDB fileDB = new FileDB(path, resultFilename, post);
 
-                fileRepository.save(fileDB);
+    @Override
+    public void store(MultipartFile[] files, Post post) {
+        try {
+            if (files == null || files.length == 0) {
+                throw new StorageException("Failed to store empty file");
             }
+            for (MultipartFile file: files) {
+                if (file != null && !file.getOriginalFilename().isEmpty()) {
+                    File uploadDir = new File(uploadPath);
+                    if (!uploadDir.exists())
+                        uploadDir.mkdir();
+                    String uuidFile = UUID.randomUUID().toString();
+                    String resultFilename = uuidFile + "." + file.getOriginalFilename();
+                    file.transferTo(new File(uploadPath + "/" + resultFilename));
+
+                    FileDB fileDB = new FileDB(resultFilename, post);
+                    fileRepository.save(fileDB);
+                }
+            }
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file", e);
         }
     }
 
-    public FileDB getFile(Long id) {
-        return fileRepository.findById(id).get();
-    }
-
-    public Stream<FileDB> getAllFiles() {
+    @Override
+    public Stream<FileDB> loadAll() {
         return fileRepository.findAll().stream();
     }
+
+    @Override
+    public List<FileDB> load(Long id) {
+        return fileRepository.findAllByPost_id(id).stream().collect(Collectors.toList());
+    }
+
+
+
+
 }
