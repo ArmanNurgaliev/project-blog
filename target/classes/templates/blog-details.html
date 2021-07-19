@@ -13,18 +13,21 @@
    <div class="alert alert-info mt-2">
       <h3 th:text="${post.title}" />
       <p th:text="${post.full_text}" />
-       <p th:each="file : ${files}">
-           <img class='img-thumbnail' th:src="@{/uploads/${file.name}}" width="120" height="120" /> <br>
+       <p>
+           <img th:each="file : ${files}" class='img-thumbnail' th:src="@{/uploads/${file.name}}" width="120" height="120" />
        </p>
-       <p><b class="">Views: </b><span th:text="${post.views}" /></p> <br>
-      <a th:href="'/blog/' + ${post.id} + '/edit'" class="btn btn-warning">Edit</a><br><br>
-       <form th:action="'/blog/' + ${id} + '/remove'" method="post">
-           <button type="submit" class="btn btn-warning">Delete</button>
-       </form>
-   </div>
+       <p><b class="">Views: </b><span th:text="${post.views}" /></p>
+       <p>
+          <a th:href="'/blog/' + ${post.id} + '/edit'" class="btn btn-warning">Edit</a>
+           <form th:action="'/blog/' + ${id} + '/remove'" method="post">
+               <button type="submit" class="btn btn-warning">Delete</button>
+           </form>
+       </p>
+   </p>
   </div>
 
   <footer th:insert="blocks/footer :: footer"></footer>
+</div>
 </div>
 </body>
 </html>

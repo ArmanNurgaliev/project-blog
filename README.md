@@ -11,3 +11,6 @@ Issues
 
 Problems
 - Chrome doesn't show images
+
+TODO
+- Autorization and authentication
