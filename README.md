@@ -11,6 +11,9 @@ Issues
 
 Problems
 - Chrome doesn't show images
+- Can't add post after authentication
 
 TODO
 - Autorization and authentication
+- login and sign in pages
+-

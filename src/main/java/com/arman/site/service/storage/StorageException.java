@@ -1,4 +1,4 @@
-package com.arman.site.service;
+package com.arman.site.service.storage;
 
 public class StorageException extends RuntimeException{
     public StorageException(String message) {

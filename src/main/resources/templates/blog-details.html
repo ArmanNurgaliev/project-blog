@@ -14,7 +14,7 @@
       <h3 th:text="${post.title}" />
       <p th:text="${post.full_text}" />
        <p>
-           <img th:each="file : ${files}" class='img-thumbnail' th:src="@{/uploads/${file.name}}" width="120" height="120" />
+           <img th:each="file : ${files}" class='img-thumbnail' src="/img/${file.name}/" width="120" height="120" />
        </p>
        <p><b class="">Views: </b><span th:text="${post.views}" /></p>
        <p>

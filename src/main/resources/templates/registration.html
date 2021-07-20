@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Sign Up</title>
+</head>
+<link rel="stylesheet" type="text/css" href="css/signin.css">
+<body>
+
+<h1 style="text-align: center; margin: 21.44px 0;">Sign up</h1>
+<form method="post" th:action="@{/registration}" th:object="${user}" enctype="multipart/form-data">
+
+    <div class="login-rows">
+        <p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        <label for="email" class="login-label signup">Email:
+            <input type="text" class="form-control" id="email" name="email" th:value="*{email}">
+        </label>
+    </div>
+
+    <div class="login-rows">
+        <p style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+        <label class="login-label signup">Name:
+            <input type="text" class="form-control" name="username" th:value="*{username}">
+        </label>
+    </div>
+
+    <div class="login-rows">
+        <p style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        <label class="login-label signup">Password:
+            <input type="password" class="form-control" name="password" th:value="*{password}">
+        </label>
+    </div>
+
+    <div class="login-rows">
+        <div class="custom-file">
+            <input type="file" name="file" id="customFile" />
+        </div>
+    </div>
+
+    <div class="login-rows">
+        <input class="login-button" type="submit" value="Sign Up"/>
+    </div>
+    <a class="sign-in" style="margin-left: 198px;" th:href="@{/login}">Sign In</a>
+</form>
+
+</body>
+</html>

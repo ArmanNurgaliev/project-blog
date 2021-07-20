@@ -16,6 +16,10 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private Set<FileDB> files;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
+
     public Post() {
     }
 
@@ -23,6 +27,21 @@ public class Post {
         this.title = title;
         this.anons = anons;
         this.full_text = full_text;
+    }
+
+    public Post(String title, String anons, String full_text, User author) {
+        this.title = title;
+        this.anons = anons;
+        this.full_text = full_text;
+        this.author = author;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public Long getId() {

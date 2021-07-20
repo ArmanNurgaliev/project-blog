@@ -4,7 +4,7 @@ import com.arman.site.models.FileDB;
 import com.arman.site.models.Post;
 import com.arman.site.repository.FileRepository;
 import com.arman.site.repository.PostRepository;
-import com.arman.site.service.StorageService;
+import com.arman.site.service.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
