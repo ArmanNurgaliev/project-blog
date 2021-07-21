@@ -3,8 +3,60 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <title>Login</title>
+  <style>
+    body {
+      display: block;
+      width: 450px;
+      height: 250px;
+      margin: auto auto;
+    }
+
+    form {
+      text-align: center;
+    }
+
+    .login {
+      text-align: center;
+    }
+    .login-button {
+      font-size: 18px;
+      text-decoration: none;
+      background-color: rgb(29, 161, 242);
+      color: white;
+      padding: 10px 100px;
+      border-top: 1px solid #CCCCCC;
+      border-right: 1px solid #333333;
+      border-bottom: 1px solid #333333;
+      border-left: 1px solid #CCCCCC;
+      border-radius: 20px;
+      width: 360px;
+      height: auto;
+    }
+    .sign-in {
+      color: #000fff;
+      font-size: 18px;
+      text-decoration: none;
+      width: 350px;
+    }
+    .sign-in:hover {
+      background-color: white;
+      color: rgb(29, 161, 242);
+      text-decoration: underline;
+    }
+    .login-label {
+      display: table-caption;
+      text-align: left;
+    }
+    .login-rows {
+      margin-bottom: 10px;
+      text-align: -webkit-center;
+    }
+    input {
+      width: 350px;
+      height: 25px;
+    }
+  </style>
 </head>
-<link rel="stylesheet" type="text/css" href="/css/signin.css">
 <body>
 <h1 style="text-align: center">Войти</h1>
 <div style="text-align: center; color: red;" th:if="${param.error}">

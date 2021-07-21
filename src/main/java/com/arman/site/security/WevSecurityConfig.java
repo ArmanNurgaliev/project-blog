@@ -25,12 +25,14 @@ public class WevSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/registration", "/static/**", "/blog/").permitAll()
+                    .antMatchers("/", "/registration", "/static/**", "/blog").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
                     .loginPage("/login")
+                    .defaultSuccessUrl("/", true)
                     .permitAll()
                 .and()
                     .logout()

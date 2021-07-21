@@ -11,9 +11,13 @@ Issues
 
 Problems
 - Chrome doesn't show images
-- Can't add post after authentication
+- Dropdown navbar is not working
 
 TODO
-- Autorization and authentication
-- login and sign in pages
--
+- Authorization and authentication
+- Login and sign in pages (done)
+- Add multipart files editing in /edit
+- Divide BlogController to EditBlogController (user PreAuthorize on class)
+- Add profile photo
+- Add comments
+- 

@@ -2,11 +2,14 @@ package com.arman.site.controllers;
 
 import com.arman.site.models.FileDB;
 import com.arman.site.models.Post;
+import com.arman.site.models.User;
 import com.arman.site.repository.FileRepository;
 import com.arman.site.repository.PostRepository;
 import com.arman.site.service.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,36 +37,45 @@ public class BlogController {
     }
 
     @GetMapping("/blog")
-    public String blogMain(Model model) {
+    public String blogMain(@AuthenticationPrincipal User user,
+                           Model model) {
         Iterable<Post> posts = postRepository.findAll();
         model.addAttribute("posts", posts);
-
+        model.addAttribute("user", user);
         return "blog-main";
     }
 
     @GetMapping("/blog/add")
-    public String blogAdd(Model model) {
+    public String blogAdd(@AuthenticationPrincipal User user,
+                          Model model) {
+        model.addAttribute("user", user);
+
         return "blog-add";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/blog/add")
-    public String blogPostAdd(@RequestParam MultipartFile[] files,
+    public String blogPostAdd(@AuthenticationPrincipal User user,
+                              @RequestParam MultipartFile[] files,
                               @RequestParam String title,
                               @RequestParam String anons,
                               @RequestParam String full_text,
                               Model model) throws IOException {
-        Post post = new Post(title, anons, full_text);
+        model.addAttribute("user", user);
 
+        Post post = new Post(title, anons, full_text, user);
         postRepository.save(post);
-        Post postWithId = postRepository.getByTitle(title);
 
+        Post postWithId = postRepository.getByTitle(title);
         storageService.store(files, postWithId);
 
         return "redirect:/blog";
     }
 
     @GetMapping("/blog/{id}")
-    public String blogDetails(@PathVariable Long id, Model model) {
+    public String blogDetails(@PathVariable Long id,
+                              @AuthenticationPrincipal User user,
+                              Model model) {
         /*if (!postRepository.existsById(id))
             return "redirect:/blog";
 */
@@ -73,30 +85,35 @@ public class BlogController {
 
         List<FileDB> files = storageService.load(id);
         model.addAttribute("files", files);
-
+        model.addAttribute("user", user);
         model.addAttribute("post", post);
 
         return "blog-details";
     }
 
+    @PreAuthorize("#username == authentication.principal.username")
     @GetMapping("/blog/{id}/edit")
-    public String blogEdit(@PathVariable Long id, Model model) {
+    public String blogEdit(@PathVariable Long id, @AuthenticationPrincipal User user,
+                           Model model) {
 
         Post post = postRepository.findById(id).orElse(null);
         if(post == null)
             return "redirect:/blog";
 
+        model.addAttribute("user", user);
         model.addAttribute("post", post);
 
         return "blog-edit";
     }
 
+    @PreAuthorize("#username == authentication.principal.username")
     @PostMapping("/blog/{id}/edit")
     public String blogPostEdit(@PathVariable long id,
                                @RequestParam MultipartFile file,
                                @RequestParam String title,
                               @RequestParam String anons,
                               @RequestParam String full_text,
+                               @AuthenticationPrincipal User user,
                               Model model) {
         Post post = postRepository.findById(id).orElseThrow();
         post.setTitle(title);

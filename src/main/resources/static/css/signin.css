@@ -4,6 +4,11 @@ body {
     height: 250px;
     margin: auto auto;
 }
+
+form {
+    text-align: center;
+}
+
 .login {
     text-align: center;
 }
