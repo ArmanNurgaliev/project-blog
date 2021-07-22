@@ -11,7 +11,6 @@ Issues
 
 Problems
 - Chrome doesn't show images
-- Dropdown navbar is not working
 
 TODO
 - Authorization and authentication
@@ -20,4 +19,4 @@ TODO
 - Divide BlogController to EditBlogController (user PreAuthorize on class)
 - Add profile photo
 - Add comments
-- 
+- Add hidden csrf to post methods
