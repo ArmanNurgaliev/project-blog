@@ -21,8 +21,8 @@
        </p>
        <p><b class="">Views: </b><span th:text="${post.views}" /></p>
        <p>
-          <a th:href="'/blog/' + ${post.id} + '/edit'" class="btn btn-warning">Edit</a>
-           <form th:action="'/blog/' + ${id} + '/remove'" method="post">
+          <a th:if="${user.id == post.author.id}" th:href="'/blog/' + ${post.id} + '/edit'" class="btn btn-warning">Edit</a>
+           <form th:if="${user.id == post.author.id}" th:action="'/blog/' + ${id} + '/remove'" method="post">
                <button type="submit" class="btn btn-warning">Delete</button>
            </form>
        </p>

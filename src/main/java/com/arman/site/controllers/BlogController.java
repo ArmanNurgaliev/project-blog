@@ -72,6 +72,7 @@ public class BlogController {
         return "redirect:/blog";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/blog/{id}")
     public String blogDetails(@PathVariable Long id,
                               @AuthenticationPrincipal User user,
@@ -91,40 +92,48 @@ public class BlogController {
         return "blog-details";
     }
 
-    @PreAuthorize("#username == authentication.principal.username")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/blog/{id}/edit")
-    public String blogEdit(@PathVariable Long id, @AuthenticationPrincipal User user,
+    public String blogEdit(@PathVariable Long id,
+                           @AuthenticationPrincipal User user,
                            Model model) {
 
         Post post = postRepository.findById(id).orElse(null);
         if(post == null)
             return "redirect:/blog";
 
+        List<FileDB> files = storageService.load(id);
+
+        model.addAttribute("files", files);
         model.addAttribute("user", user);
         model.addAttribute("post", post);
 
         return "blog-edit";
     }
 
-    @PreAuthorize("#username == authentication.principal.username")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/blog/{id}/edit")
-    public String blogPostEdit(@PathVariable long id,
-                               @RequestParam MultipartFile file,
+    public String blogPostEdit(@PathVariable Long id,
+                           //    @RequestParam MultipartFile file,
                                @RequestParam String title,
-                              @RequestParam String anons,
-                              @RequestParam String full_text,
+                               @RequestParam String anons,
+                               @RequestParam String full_text,
+                               @RequestParam MultipartFile[] files,
                                @AuthenticationPrincipal User user,
-                              Model model) {
+                              Model model) throws IOException {
         Post post = postRepository.findById(id).orElseThrow();
         post.setTitle(title);
         post.setAnons(anons);
         post.setFull_text(full_text);
 
         postRepository.save(post);
+        storageService.store(files, post);
 
-        return "redirect:/blog";
+        return "redirect:/blog/" + id;
     }
 
+
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/blog/{id}/remove")
     public String blogPostDelete(@PathVariable long id,
                                Model model) {
