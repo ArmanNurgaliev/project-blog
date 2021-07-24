@@ -8,6 +8,8 @@ import com.arman.site.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentService {
 
@@ -26,5 +28,9 @@ public class CommentService {
         Comment comment = new Comment(text, user, post);
 
         commentRepository.save(comment);
+    }
+
+    public List<Comment> findAllByPost_id(Long post_id) {
+        return commentRepository.findAllByPost_id(post_id);
     }
 }

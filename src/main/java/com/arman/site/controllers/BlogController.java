@@ -1,10 +1,8 @@
 package com.arman.site.controllers;
 
-import com.arman.site.models.FileDB;
-import com.arman.site.models.Post;
-import com.arman.site.models.User;
-import com.arman.site.repository.FileRepository;
-import com.arman.site.repository.PostRepository;
+import com.arman.site.models.*;
+import com.arman.site.repository.SubCommentRepository;
+import com.arman.site.service.CommentService;
 import com.arman.site.service.PostService;
 import com.arman.site.service.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,11 +27,15 @@ public class BlogController {
     private String path;
     private StorageService storageService;
     private PostService postService;
+    private CommentService commentService;
+    private SubCommentRepository subCommentRepository;
 
     @Autowired
-    public BlogController(StorageService storageService, PostService postService) {
+    public BlogController(StorageService storageService, PostService postService, CommentService commentService, SubCommentRepository subCommentRepository) {
         this.storageService = storageService;
         this.postService = postService;
+        this.commentService = commentService;
+        this.subCommentRepository = subCommentRepository;
     }
 
     @GetMapping("/blog")
@@ -79,11 +82,18 @@ public class BlogController {
         Post post = postService.findById(post_id);
         if(post == null)
             return "redirect:/blog";
-
+        List<Comment> comments = commentService.findAllByPost_id(post_id);
+        List<SubComment> subComments = new ArrayList<>();
+        for (Comment comment: comments) {
+            subComments.addAll(subCommentRepository.findAllByParent_id(comment.getId()));
+        }
         List<FileDB> files = storageService.load(post_id);
+
         model.addAttribute("files", files);
         model.addAttribute("user", user);
         model.addAttribute("post", post);
+        model.addAttribute("comments", comments);
+        model.addAttribute("subComments", subComments);
 
         return "blog-details";
     }

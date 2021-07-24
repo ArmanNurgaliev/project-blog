@@ -32,16 +32,17 @@
            <img th:each="file : ${files}" class='img-thumbnail' src="/img/${file.name}/" width="120" height="120" />
        </p>
 
-           <div style="text-align: right;" class="p-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Comment</span></div>
+           <div style="text-align: left;" class="p-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
            <div id="collapse-1" class="collapse" data-parent="#myGroup">
-               <div class="d-flex flex-row align-items-start"><textarea class="form-control ml-1 shadow-none textarea"></textarea></div>
-               <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="button">Post comment</button><button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel</button></div>
+               <form method="post" th:action="'/comment/add/' + ${post.id}" class="d-flex flex-row align-items-start">
+                   <textarea name="text" class="form-control ml-1 shadow-none textarea"></textarea>
+                   <div class="mt-2">
+                       <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                   </div>
+               </form>
           </div>
-
-
-
-   </p>
   </div>
+      
 
   <footer th:insert="blocks/footer :: footer"></footer>
 </div>

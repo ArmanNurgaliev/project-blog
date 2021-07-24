@@ -51,4 +51,20 @@ public class SubComment {
     public void setComment(Comment parent) {
         this.parent = parent;
     }
+
+    public Comment getParent() {
+        return parent;
+    }
+
+    public void setParent(Comment parent) {
+        this.parent = parent;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
