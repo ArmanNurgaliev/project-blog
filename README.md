@@ -5,9 +5,11 @@
 TODO
 - Authorization and authentication
 - Add profile photo
-- Add comments
 - Add hidden csrf to post methods
 - Add admin pages and admin role
+
+In process
+- Add comments
 
 DONE
 - Login and sign up pages

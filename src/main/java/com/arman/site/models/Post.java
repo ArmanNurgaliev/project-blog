@@ -1,17 +1,17 @@
 package com.arman.site.models;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String title, anons, full_text;
-    private int views;
 
     @OneToMany(mappedBy = "post")
     private Set<FileDB> files;
@@ -19,6 +19,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 
     public Post() {
     }
@@ -76,20 +79,20 @@ public class Post {
         this.full_text = full_text;
     }
 
-    public int getViews() {
-        return views;
+
+    public List<Comment> getComments() {
+        return comments;
     }
 
-    public void setViews(int views) {
-        this.views = views;
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
-   public Set<FileDB> getFiles() {
+    public Set<FileDB> getFiles() {
         return files;
     }
 
     public void setFiles(Set<FileDB> files) {
         this.files = files;
     }
-
 }

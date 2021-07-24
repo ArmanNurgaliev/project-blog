@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public interface StorageService {
 
-    void store(MultipartFile[] files, Post post) throws IOException;
+    void store(MultipartFile[] files, String title) throws IOException;
 
     Stream<FileDB> loadAll();
 
