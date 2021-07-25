@@ -1,43 +1,33 @@
 <div th:fragment="header">
-  <header style="background-color: #212529;">
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 mb-4 mt-4 border-bottom">
-     <a href="/" class="d-flex align-items-center text-light text-decoration-none">
-        <span class="fs-2">Blog</span>
-      </a>
 
-     <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto pt-2">
-        <a class="me-3 py-2 text-light text-decoration-none fs-3 px-2" href="/">Main</a>
-        <a class="me-3 py-2 text-light text-decoration-none fs-3 pb-2 px-2" href="/blog">Blog</a>
-        <a class="me-3 py-2 text-light text-decoration-none fs-3 pb-2 px-2" href="/blog/add">Add post</a>
-        <a class="me-3 py-2 text-light text-decoration-none fs-3 pb-2 px-2" href="/about">About Us</a>
-        <a class="py-2 text-light text-decoration-none fs-3 pb-2 px-2" href="#">Contact info</a>
-        <a class="py-2 text-light text-decoration-none nav-link fs-3 pb-2 px-2" th:if="${user == null}" href="/login">Sign in</a>
-        <a class="py-2 text-light text-decoration-none nav-link fs-3 pb-2 px-2" th:if="${user == null}" href="/registration">Sign up</a>
-          <div class="dropdown" th:if="${user != null}">
-              <a class="nav-link dropdown-toggle text-light text-decoration-none fs-3 pb-2 px-2" th:text="${user.username}" href="/" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                  <li><a class="dropdown-item" th:href="@{/profile/{id}(id=${user.id})}">Profile</a></li>
-                  <li><a class="dropdown-item" th:href="@{/posts/{id}(id=${user.id})}">My posts</a></li>
-                  <li><a class="dropdown-divider" th:href="@{/profile/settings/{id}(id=${user.id})}">Settings</a></li>
-                  <li><a class="dropdown-item" href="/logout">Log out</a></li>
-              </ul>
-          </div>
+    <header class="p-3 bg-dark text-white">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
-          <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success text-light text-decoration-none display-6 fs-3" type="submit">Search</button>
-          </form>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li class="px-3"><a href="/" class="nav-link px-2 text-white fs-3">Main</a></li>
+                    <li class="px-3"><a href="/blog" class="nav-link px-2 text-white fs-3">Blog</a></li>
+                    <li class="px-3"><a href="/blog/add" class="nav-link px-2 text-white fs-3">Add post</a></li>
+                    <li class="px-3"><a href="/about" class="nav-link px-2 text-white fs-3">About</a></li>
+                </ul>
 
 
-      </nav>
+                <div class="text-end" th:if="${user == null}">
+                    <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+                    <a href="/registration"><button type="button" class="btn btn-warning">Sign-up</button></a>
+                </div>
 
-
-    </div>
-
-
-
-  </header>
+                <li th:if="${user != null}" class="dropdown fs-3" style="margin: 0; list-style-type: none;">
+                    <a style="color:white; text-decoration: none;" href="/" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" th:text="${user.username}">Username</a>
+                    <ul class="dropdown-menu pre-scrollable" style="overflow-y: auto">
+                        <li><a th:href="@{/profile/{id}(id=${user.id})}">Profile</a></li>
+                        <li><a th:href="@{/blog/posts/{id}(id=${user.id})}">Posts</a></li>
+                        <li><a th:href="@{/profile/{id}/notifications(id=${user.id})}">Notifications</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                </li>
+            </div>
+        </div>
+    </header>
 
 </div>

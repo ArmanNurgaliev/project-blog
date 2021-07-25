@@ -40,8 +40,13 @@ public class BlogController {
 
     @GetMapping("/blog")
     public String blogMain(@AuthenticationPrincipal User user,
+                           @RequestParam(required = false, defaultValue = "") String filter,
                            Model model) {
-        Iterable<Post> posts = postService.findAll();
+        Iterable<Post> posts;
+        if (filter != null && !filter.isEmpty())
+            posts = postService.findAllByTitle(filter);
+        else
+            posts = postService.findAll();
         model.addAttribute("posts", posts);
         model.addAttribute("user", user);
         return "blog-main";

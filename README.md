@@ -4,12 +4,12 @@
 
 TODO
 - Authorization and authentication
-- Add profile photo
+- Add profile photo (?)
 - Add hidden csrf to post methods
 - Add admin pages and admin role
 
 In process
-- Add comments
+- Add comments (make it looks good)
 
 DONE
 - Login and sign up pages
@@ -17,3 +17,4 @@ DONE
 
 Problems
 - Chrome doesn't show images
+- Search by post title

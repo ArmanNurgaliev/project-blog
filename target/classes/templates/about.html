@@ -10,14 +10,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container py-3">
     <header th:insert="/blocks/header :: header"></header>
+<div class="container">
 
-    <div class="container mt-5">
+    <div class="container" style="width: auto;">
         <h1 th:text="${text}"/>
     </div>
 
-    <footer th:insert="blocks/footer :: footer"></footer>
 </div>
+    <footer th:insert="blocks/footer :: footer"></footer>
 </body>
 </html>

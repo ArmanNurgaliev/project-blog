@@ -42,4 +42,8 @@ public class PostService {
     public Post findById(Long post_id) {
        return postRepository.findById(post_id).orElse(null);
     }
+
+    public Iterable<Post> findAllByTitle(String filter) {
+        return postRepository.findAllByTitle_name(filter);
+    }
 }
