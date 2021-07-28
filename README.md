@@ -4,16 +4,18 @@
 
 TODO
 - Authorization and authentication
-- Add profile photo (?)
 - Add hidden csrf to post methods
 - Add admin pages and admin role
+- Add sending notifications after replying to comments or posts
 
 In process
-- Add comments (make it looks good)
+- Add profile photo
 
 DONE
 - Login and sign up pages
 - Add multipart files editing in /edit
+- Comments (section, not sending notifications)
+- Add profile page
 
 Problems
 - Chrome doesn't show images

@@ -19,6 +19,7 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
+    private String about;
 
     private Boolean enabled = false;
 
@@ -125,5 +126,29 @@ public class User implements UserDetails {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<SubComment> getSubComments() {
+        return subComments;
+    }
+
+    public void setSubComments(List<SubComment> subComments) {
+        this.subComments = subComments;
     }
 }

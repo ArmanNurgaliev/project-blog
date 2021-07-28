@@ -22,7 +22,10 @@
   <div class="container py-3">
    <div class="alert alert-info" style="width: auto; color: black">
        <div style="display:grid; grid-template-columns: 86% 7% 7%;">
-          <h3 th:text="${post.title}" />
+           <div>
+               <div class="py-2 bd-highlight">Posted by <span style="color: #f0ad4e;" th:text="${user.getUsername()}"></span></div>
+               <h3 style="margin-top: 0px" th:text="${post.title}" />
+           </div>
            <a style="height: 35px;" th:if="${user.id == post.author.id}" th:href="'/blog/' + ${post.id} + '/edit'" class="btn btn-warning">Edit</a>
            <form style="padding-left: 2px;" th:if="${user.id == post.author.id}" th:action="'/blog/' + ${id} + '/remove'" method="post">
                <button style="height: 35px;" type="submit" class="btn btn-warning">Delete</button>
@@ -34,7 +37,7 @@
            <img th:each="file : ${files}" class='img-thumbnail' src="/img/${file.name}/" width="120" height="120" />
        </p>
 
-           <div style="text-align: left; color: dodgerblue; width: 50px;" class="p-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
+           <div style="text-align: left; color: dodgerblue; width: 50px;" class="py-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
            <div id="collapse-1" class="collapse" data-parent="#myGroup">
                <form method="post" th:action="'/comment/add/' + ${post.id}" class="d-flex flex-column align-items-start">
                    <textarea name="text" class="form-control ml-1 shadow-none textarea"></textarea>
@@ -43,27 +46,34 @@
                    </div>
                </form>
           </div>
+
+       <!--TODO: make comments look good -->
+       <div class="d-flex flex-column bd-highlight mb-3 mt-5" th:each="comment: ${comments}">
+           <div style="border-left: 1px solid lightgrey">
+           <div style="color: #f0ad4e;" class="px-2 bd-highlight" th:text="${comment.getUser().getUsername()}">Name</div>
+           <div class="p-2 bd-highlight" th:text="${comment.getText()}">Text</div>
+           <div style="text-align: left; color: dodgerblue; width: 50px;" class="p-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" th:href="'#collapse-' + ${comment.getId()}"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
+           <div th:id="'collapse-' + ${comment.getId()}" class="collapse" data-parent="#myGroup">
+               <form method="post" th:action="'/comment/reply/' + ${post.id} + '/' + ${comment.getId()}" class="d-flex flex-column align-items-start">
+                   <textarea name="text" class="form-control ml-1 shadow-none textarea"></textarea>
+                   <div class="mt-2">
+                       <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                   </div>
+               </form>
+           </div>
+           </div>
+           <div style="padding-left: 20px;">
+           <div style="border-left: 1px solid lightgrey;" class="bd-highlight p-3" th:each="sub: ${comment.getSubComments()}">
+               <div class="py-2 bd-highlight" style="color: #f0ad4e;" th:text="${sub.getUser().getUsername()}">Name</div>
+               <div class="px-2 bd-highlight" th:text="${sub.getText()}">SubComment's text</div>
+           </div>
+           </div>
+       </div>
+
+
     </div>
 
-<!--TODO: add comments form and subcomments -->
-      <div class="d-flex flex-column bd-highlight mb-3 border" th:each="comment: ${comments}">
-          <div class="p-2 bd-highlight" th:text="${comment.getUser().getUsername()}">Name</div>
-          <div class="p-2 bd-highlight" th:text="${comment.getText()}">Text</div>
-          <div style="text-align: left; color: dodgerblue; width: 50px;" class="p-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" th:href="'#collapse-' + ${comment.getId()}"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
-          <div th:id="'collapse-' + ${comment.getId()}" class="collapse" data-parent="#myGroup">
-              <form method="post" th:action="'/comment/reply/' + ${post.id} + '/' + ${comment.getId()}" class="d-flex flex-column align-items-start">
-                  <textarea name="text" class="form-control ml-1 shadow-none textarea"></textarea>
-                  <div class="mt-2">
-                      <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
-                  </div>
-              </form>
-          </div>
-          <div style="padding-left: 20px;" class="bd-highlight border" th:each="sub: ${comment.getSubComments()}">
-              <div class="p-2 bd-highlight" th:text="${sub.getUser().getUsername()}">Name</div>
-              <div class="p-2 bd-highlight" th:text="${sub.getText()}">SubComment's text</div>
-          </div>
-      </div>
-</div>
+  </div>
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>
 </html>

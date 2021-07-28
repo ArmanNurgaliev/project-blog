@@ -30,12 +30,12 @@
     <form th:action="'/blog/' + ${post.id} + '/edit'" method="post" enctype="multipart/form-data">
       <input type="text" th:value="${post.title}" name="title" placeholder="Type post title" class="form-control" /><br>
       <input type="text" th:value="${post.anons}" name="anons" placeholder="Type post anons" class="form-control" /><br>
-      <textarea name="full_text" th:text="${post.full_text}" placeholder="Type post content" class="form-control" /><br>
+      <textarea name="full_text" th:text="${post.full_text}" placeholder="Type post content" class="form-control" />
     <!--  <div class="img-wrap" th:each="file : ${files}" >
         <a th:href="@{/blog/edit/deletePhoto/{id}(id=${file.id})}"><span class="close">&times;</span></a>
       </div>-->
         <img class='img-thumbnail' th:each="file : ${files}" src="/img/${file.name}/" />
-      <input type="file" name="files" multiple="multiple" />
+      <input class="py-3" type="file" name="files" multiple="multiple" />
       <button type="submit" class="btn btn-success">Edit post</button>
     </form>
   </div>

@@ -45,4 +45,19 @@ public class UserService implements UserDetailsService {
 
         return true;
     }
+
+
+    public User getUserById(Long user_id) {
+        return userRepository.findById(user_id).orElse(null);
+    }
+
+    public void updateProfile(Long id, String username, String email, String about) {
+        User user = userRepository.findById(id).orElse(null);
+
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setAbout(about);
+
+        userRepository.save(user);
+    }
 }
