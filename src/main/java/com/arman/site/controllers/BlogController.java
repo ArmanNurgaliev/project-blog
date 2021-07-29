@@ -23,8 +23,6 @@ import java.util.List;
 
 @Controller
 public class BlogController {
-    @Value("${upload.path}")
-    private String path;
     private StorageService storageService;
     private PostService postService;
     private CommentService commentService;

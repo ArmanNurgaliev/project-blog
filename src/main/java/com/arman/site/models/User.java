@@ -20,6 +20,7 @@ public class User implements UserDetails {
     private String email;
     private String password;
     private String about;
+    private String photo;
 
     private Boolean enabled = false;
 
@@ -150,5 +151,13 @@ public class User implements UserDetails {
 
     public void setSubComments(List<SubComment> subComments) {
         this.subComments = subComments;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }

@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 @Service
 public class FileStorageService implements StorageService {
-    @Value("${upload.path}")
+    @Value("${upload.path.post}")
     private String uploadPath;
     private FileRepository fileRepository;
     private PostRepository postRepository;

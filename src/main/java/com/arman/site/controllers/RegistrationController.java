@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 public class RegistrationController {
@@ -27,8 +31,11 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@ModelAttribute User user, Model model) {
-        if (!userService.register(user)) {
+    public String addUser(@ModelAttribute User user,
+                          @RequestParam("file") MultipartFile file,
+                          Model model) throws IOException {
+
+        if (!userService.register(user, file)) {
             model.addAttribute("usernameError", "User with this username is already exists");
             return "registration";
         }

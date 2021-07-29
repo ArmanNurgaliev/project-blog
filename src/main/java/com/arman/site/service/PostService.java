@@ -44,6 +44,6 @@ public class PostService {
     }
 
     public Iterable<Post> findAllByTitle(String filter) {
-        return postRepository.findAllByTitle_name(filter);
+        return postRepository.findByTitleContainingIgnoreCase(filter);
     }
 }

@@ -1,20 +1,28 @@
 package com.arman.site.service;
 
+import com.arman.site.models.FileDB;
+import com.arman.site.models.Post;
 import com.arman.site.models.Role;
 import com.arman.site.models.User;
 import com.arman.site.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
-
+    @Value("${upload.path.profile}")
+    private String uploadPath;
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
@@ -32,10 +40,12 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public boolean register(User user) {
+    public boolean register(User user, MultipartFile file) throws IOException {
         User userFromBD = userRepository.findByUsername(user.getUsername());
         if (userFromBD != null)
             return false;
+
+        savePhoto(user, file);
 
         user.setRoles(Collections.singleton(Role.USER));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -44,6 +54,20 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
 
         return true;
+    }
+
+    private void savePhoto(User user, MultipartFile file) throws IOException {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists())
+                uploadDir.mkdir();
+            String uuidFile = UUID.randomUUID().toString();
+            String resultName = uuidFile + "." + file.getOriginalFilename();
+            file.transferTo(new File(uploadPath + "/" + resultName));
+            user.setPhoto("img/" + resultName);
+        }
+        else
+            user.setPhoto("uploads/photo-profile.jpg");
     }
 
 
