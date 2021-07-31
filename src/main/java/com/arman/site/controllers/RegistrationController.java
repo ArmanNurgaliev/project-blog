@@ -33,8 +33,12 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String addUser(@ModelAttribute User user,
                           @RequestParam("file") MultipartFile file,
+                          @RequestParam String confirmPassword,
                           Model model) throws IOException {
-
+        if (!user.getPassword().equals(confirmPassword)) {
+            model.addAttribute("confirmation", "Passwords are not equals");
+            return "registration";
+        }
         if (!userService.register(user, file)) {
             model.addAttribute("usernameError", "User with this username is already exists");
             return "registration";

@@ -4,13 +4,13 @@
 
 TODO
 - Authorization and authentication
-    - password confirmation
     - tokens
     - captcha
     - oAuth2
+    - admin pages and admin role
 - Add hidden csrf to post methods
-- Add admin pages and admin role
 - Add sending notifications after replying to comments or posts
+- Validation
 
 In process
 
@@ -21,6 +21,7 @@ DONE
 - Add profile page
 - Add profile photo
 - Search by post title
+- Authorization and authentication 
+    - password confirmation
 
 Problems
-- Chrome doesn't show images

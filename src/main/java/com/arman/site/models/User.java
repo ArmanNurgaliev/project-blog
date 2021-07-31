@@ -19,6 +19,9 @@ public class User implements UserDetails {
     private String username;
     private String email;
     private String password;
+
+    @Transient
+    private String confirmPassword;
     private String about;
     private String photo;
 
@@ -159,5 +162,13 @@ public class User implements UserDetails {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

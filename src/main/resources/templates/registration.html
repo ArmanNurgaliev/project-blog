@@ -71,6 +71,7 @@
         </label>
     </div>
 
+    <p style="color:red" th:if="${usernameError != null}" th:text="${usernameError}"></p>
     <div class="login-rows">
         <p style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
         <label class="login-label signup">Name:
@@ -82,6 +83,14 @@
         <p style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
         <label class="login-label signup">Password:
             <input type="password" class="form-control" name="password" th:value="*{password}">
+        </label>
+    </div>
+
+    <p style="color:red" th:if="${confirmation != null}" th:text="${confirmation}"></p>
+    <div class="login-rows">
+        <p style="color:red" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
+        <label class="login-label signup">Password:
+            <input type="password" class="form-control" name="confirmPassword">
         </label>
     </div>
 

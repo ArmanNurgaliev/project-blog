@@ -34,7 +34,7 @@
 
       <p th:text="${post.full_text}" />
        <p>
-           <img th:each="file : ${files}" class='img-thumbnail' src="/img/${file.name}/" width="120" height="120" />
+           <img th:each="file : ${files}" class='img-thumbnail' th:src="@{/{photo}/(photo=${file.name})}" width="120" height="120" />
        </p>
 
            <div style="text-align: left; color: dodgerblue; width: 50px;" class="py-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
