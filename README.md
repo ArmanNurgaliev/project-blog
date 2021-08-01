@@ -7,12 +7,13 @@ TODO
     - tokens
     - captcha
     - oAuth2
-    - admin pages and admin role
+    - remember me
 - Add hidden csrf to post methods
 - Add sending notifications after replying to comments or posts
 - Validation
 
 In process
+- admin page (editing roles to users)
 
 DONE
 - Login and sign up pages
@@ -25,3 +26,4 @@ DONE
     - password confirmation
 
 Problems
+- Chrome doesn't show pictures

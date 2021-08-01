@@ -20,6 +20,7 @@ public class MainController {
     @GetMapping("/about")
     public String about(@AuthenticationPrincipal User user,
                         Model model) {
+
         model.addAttribute("user", user);
         model.addAttribute("text", "Page about us");
 

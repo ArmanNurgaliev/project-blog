@@ -9,15 +9,16 @@
                     <li class="px-3"><a href="/blog" class="nav-link px-2 text-white fs-3">Blog</a></li>
                     <li class="px-3"><a href="/blog/add" class="nav-link px-2 text-white fs-3">Add post</a></li>
                     <li class="px-3"><a href="/about" class="nav-link px-2 text-white fs-3">About</a></li>
+                    <li class="px-3" sec:authorize="hasRole('ADMIN')"><a href="/admin" class="nav-link px-2 text-white fs-3">Admin page</a></li>
                 </ul>
 
-
-                <div class="text-end" th:if="${user == null}">
+                <!--th:if="${user == null}"-->
+                <div class="text-end" sec:authorize="isAnonymous()">
                     <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
                     <a href="/registration"><button type="button" class="btn btn-warning">Sign-up</button></a>
                 </div>
 
-                <li th:if="${user != null}" class="dropdown fs-3" style="margin: 0; list-style-type: none;">
+                <li sec:authorize="isAuthenticated()" class="dropdown fs-3" style="margin: 0; list-style-type: none;">
                     <a style="color:white; text-decoration: none;" href="/" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" th:text="${user.username}">Username</a>
                     <ul class="dropdown-menu pre-scrollable" style="overflow-y: auto">
                         <li><a th:href="@{/profile/{id}(id=${user.id})}">Profile</a></li>

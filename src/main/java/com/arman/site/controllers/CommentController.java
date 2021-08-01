@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/comment")
 public class CommentController {
     private CommentService commentService;
     private SubCommentService subCommentService;
@@ -22,7 +24,7 @@ public class CommentController {
         this.subCommentService = subCommentService;
     }
 
-    @PostMapping("/comment/add/{post_id}")
+    @PostMapping("/add/{post_id}")
     public String addComment(@AuthenticationPrincipal User user,
                              @PathVariable Long post_id,
                              @RequestParam String text,
@@ -33,7 +35,7 @@ public class CommentController {
         return "redirect:/blog/" + post_id;
     }
 
-    @PostMapping("/comment/reply/{post_id}/{comment_id}")
+    @PostMapping("/reply/{post_id}/{comment_id}")
     public String replyComment(@AuthenticationPrincipal User user,
                                @PathVariable Long post_id,
                                @PathVariable Long comment_id,

@@ -31,9 +31,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/resources/static/css/js" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/resources/static/css" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -58,7 +58,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: net.minidev:json-smart:2.4.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: net.minidev:accessors-smart:2.4.7" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.ow2.asm:asm:9.1" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.31" level="project" />
     <orderEntry type="library" name="Maven: jakarta.xml.bind:jakarta.xml.bind-api:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: jakarta.activation:jakarta.activation-api:1.2.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.assertj:assertj-core:3.19.0" level="project" />
@@ -137,5 +136,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.security:spring-security-test:5.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.31" level="project" />
   </component>
 </module>

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -83,5 +84,9 @@ public class UserService implements UserDetailsService {
         user.setAbout(about);
 
         userRepository.save(user);
+    }
+
+    public List<User> getAll() {
+        return userRepository.findAll();
     }
 }
