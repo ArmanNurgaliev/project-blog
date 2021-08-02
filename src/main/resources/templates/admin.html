@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Admin page</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+<header th:insert="/blocks/header :: header"></header>
 
+<div class="container">
+    <table class="table table-hover fs-3">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Roles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usr: ${users}"  style="cursor: pointer"
+            th:some-field="${usr.getId()}" onclick="rowClicked(this.getAttribute('some-field'))">
+            <th scope="row" th:text="${usr.getId()}">1</th>
+            <td th:text="${usr.getUsername()}">Name</td>
+            <td>
+                <span th:each="role,iterStat : ${usr.getRoles()}"
+                      th:text="${role} + ${!iterStat.last ? ', ' : ''}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:insert="blocks/footer :: footer"></footer>
+<script>
+    function rowClicked(value) {
+        location.href = "/admin/" + value;
+    }
+</script>
 </body>
 </html>

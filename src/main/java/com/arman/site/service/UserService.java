@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -88,5 +89,10 @@ public class UserService implements UserDetailsService {
 
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+
+    public void updateUser(Long user_id, String name, String email, Map<String, String> role) {
+
+
     }
 }
