@@ -38,7 +38,7 @@
     <div class="bg-white shadow rounded overflow-hidden">
       <div class="px-4 pt-0 pb-4 cover" style="height: 170px;">
         <div class="media align-items-end profile-head">
-          <div class="profile mr-3"><img th:src="@{/{photo}/(photo=${user.photo})}" alt="" width="130" height="130" class="rounded mb-2 img-thumbnail"><a href="/profile/edit" class="btn btn-outline-dark btn-sm btn-block fs-3">Edit profile</a></div>
+          <div class="profile mr-3"><img th:src="@{/{photo}/(photo=${user.photo})}" alt="" width="130" height="130" class="rounded mb-2 img-thumbnail"><a th:if="${currentUser.getId() == user.getId()}" href="/profile/edit" class="btn btn-outline-dark btn-sm btn-block fs-3">Edit profile</a></div>
           <div class="media-body mb-5 text-white" style="transform: translateY(-4rem);">
             <h4 class="mt-0 mb-0 fs-2" th:text="${user.getUsername()}">Username</h4>
            <!-- <p class="small mb-4"> <i class="fas fa-map-marker-alt mr-2"></i>New York</p>-->

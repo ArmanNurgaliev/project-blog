@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
    <style>
        .comment:hover {
@@ -21,50 +21,64 @@
 
   <div class="container py-3">
    <div class="alert alert-info" style="width: auto; color: black">
-       <div style="display:grid; grid-template-columns: 86% 7% 7%;">
+       <div style="display:grid; grid-template-columns: 5% 81% 7% 7%;">
+           <img src="img/photo-profile.jpg" alt="" class="rounded-circle" width="40" height="40">
            <div>
-               <div class="py-2 bd-highlight">Posted by <span style="color: #f0ad4e;" th:text="${user.getUsername()}"></span></div>
-               <h3 style="margin-top: 0px" th:text="${post.title}" />
+               <div class="py-2 bd-highlight">Posted by <span style="color: #f0ad4e;" th:text="${post.getAuthor().getUsername()}"></span></div>
            </div>
+           <div sec:authorize="isAuthenticated()" style="display: contents;">
            <a style="height: 35px;" th:if="${user.id == post.author.id}" th:href="'/blog/' + ${post.id} + '/edit'" class="btn btn-warning">Edit</a>
-           <form style="padding-left: 2px;" th:if="${user.id == post.author.id or admin == true}" th:action="'/blog/' + ${post.id} + '/remove'" method="post">
+           <form style="padding-left: 2px;" th:if="${user.id == post.author.id or user.getRoles.contains(admin)}" th:action="'/blog/' + ${post.id} + '/remove'" method="post">
+               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                <button style="height: 35px;" type="submit" class="btn btn-warning">Delete</button>
            </form>
+           </div>
        </div>
+               <h3 style="margin-top: 0px" th:text="${post.title}" />
 
       <p th:text="${post.full_text}" />
        <p>
            <img th:each="file : ${files}" class='img-thumbnail' th:src="@{/{photo}/(photo=${file.name})}" width="120" height="120" />
        </p>
-
-           <div style="text-align: left; color: dodgerblue; width: 50px;" class="py-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
-           <div id="collapse-1" class="collapse" data-parent="#myGroup">
+        <!--Comment to post-->
+           <div sec:authorize="isAuthenticated()" style="text-align: left; color: dodgerblue; width: 50px;" class="py-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-0"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
+           <div id="collapse-0" class="collapse" data-parent="#myGroup">
                <form method="post" th:action="'/comment/add/' + ${post.id}" class="d-flex flex-column align-items-start">
+                   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                    <textarea name="text" class="form-control ml-1 shadow-none textarea"></textarea>
                    <div class="mt-2">
                        <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
                    </div>
                </form>
           </div>
+       <div th:if="${user == null}" style="font-size: 12px; color: dodgerblue;">Login to comment</div>
 
-       <!--TODO: make comments look good -->
-       <div class="d-flex flex-column bd-highlight mb-3 mt-5" th:each="comment: ${comments}">
-           <div style="border-left: 1px solid lightgrey">
-           <div style="color: #f0ad4e;" class="px-2 bd-highlight" th:text="${comment.getUser().getUsername()}">Name</div>
+       <!--Comments-->
+       <div style="padding-left: 20px;" class="d-flex flex-column bd-highlight mb-3 mt-5" th:each="comment: ${comments}">
+           <div>
+           <div style="display: flex">
+               <img src="img/photo-profile.jpg" alt="" class="rounded-circle" width="20" height="20">
+               <div style="color: #f0ad4e;" class="px-2 bd-highlight" th:text="${comment.getUser().getUsername()}">Name</div>
+           </div>
            <div class="p-2 bd-highlight" th:text="${comment.getText()}">Text</div>
            <div style="text-align: left; color: dodgerblue; width: 50px;" class="p-2 action-collapse" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-2" th:href="'#collapse-' + ${comment.getId()}"><i class="fa fa-commenting-o"></i><span class="comment ml-1">Reply</span></div>
            <div th:id="'collapse-' + ${comment.getId()}" class="collapse" data-parent="#myGroup">
                <form method="post" th:action="'/comment/reply/' + ${post.id} + '/' + ${comment.getId()}" class="d-flex flex-column align-items-start">
+                   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                    <textarea name="text" class="form-control ml-1 shadow-none textarea"></textarea>
                    <div class="mt-2">
                        <button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                       <button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel</button>
                    </div>
                </form>
            </div>
            </div>
            <div style="padding-left: 20px;">
-           <div style="border-left: 1px solid lightgrey;" class="bd-highlight p-3" th:each="sub: ${comment.getSubComments()}">
+           <div class="bd-highlight p-3" th:each="sub: ${comment.getSubComments()}">
+               <div style="display: flex">
+               <img src="img/photo-profile.jpg" alt="" class="rounded-circle" width="20" height="20">
                <div class="py-2 bd-highlight" style="color: #f0ad4e;" th:text="${sub.getUser().getUsername()}">Name</div>
+               </div>
                <div class="px-2 bd-highlight" th:text="${sub.getText()}">SubComment's text</div>
            </div>
            </div>

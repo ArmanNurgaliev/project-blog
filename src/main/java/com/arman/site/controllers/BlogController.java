@@ -95,7 +95,7 @@ public class BlogController {
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
         model.addAttribute("subComments", subComments);
-        model.addAttribute("admin", user.getRoles().contains(Role.ADMIN));
+        model.addAttribute("admin", Role.ADMIN);
 
         return "blog-details";
     }

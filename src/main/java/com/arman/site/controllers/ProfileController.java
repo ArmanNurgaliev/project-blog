@@ -19,17 +19,20 @@ public class ProfileController {
     }
 
     @GetMapping("/{user_id}")
-    public String profile(@PathVariable Long user_id, Model model) {
+    public String profile(@AuthenticationPrincipal User currentUser,
+                            @PathVariable Long user_id, Model model) {
         User user = userService.getUserById(user_id);
 
-        model.addAttribute(user);
+        model.addAttribute("user", user);
+        model.addAttribute("currentUser", currentUser);
+
         return "profile";
     }
 
     @GetMapping("/edit")
     public String editProfile(@AuthenticationPrincipal User user,
                               Model model) {
-        model.addAttribute(user);
+        model.addAttribute("user", user);
 
         return "profile-edit";
     }

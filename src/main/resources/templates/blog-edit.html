@@ -28,6 +28,7 @@
   <div class="container" style="width: auto;" th:if="${user.id == post.author.id}">
     <h1>Edit</h1>
     <form th:action="'/blog/' + ${post.id} + '/edit'" method="post" enctype="multipart/form-data">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <input type="text" th:value="${post.title}" name="title" placeholder="Type post title" class="form-control" /><br>
       <input type="text" th:value="${post.anons}" name="anons" placeholder="Type post anons" class="form-control" /><br>
       <textarea name="full_text" th:text="${post.full_text}" placeholder="Type post content" class="form-control" />

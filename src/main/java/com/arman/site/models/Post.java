@@ -1,5 +1,8 @@
 package com.arman.site.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +21,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User author;
 
     @OneToMany(mappedBy = "post")

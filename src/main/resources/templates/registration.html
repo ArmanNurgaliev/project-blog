@@ -64,6 +64,8 @@
 <h1 style="text-align: center; margin: 21.44px 0;">Sign up</h1>
 <form method="post" th:action="@{/registration}" th:object="${user}" enctype="multipart/form-data">
 
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
     <div class="login-rows">
         <p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
         <label for="email" class="login-label signup">Email:

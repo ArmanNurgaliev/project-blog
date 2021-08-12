@@ -1,5 +1,7 @@
 package com.arman.site.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -40,6 +42,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<SubComment> subComments;
+
+    @Enumerated(EnumType.STRING)
+    private AuthenticationProvider auth_provider;
 
     public User() {
     }
@@ -170,5 +175,13 @@ public class User implements UserDetails {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public AuthenticationProvider getAuth_provider() {
+        return auth_provider;
+    }
+
+    public void setAuth_provider(AuthenticationProvider auth_provider) {
+        this.auth_provider = auth_provider;
     }
 }

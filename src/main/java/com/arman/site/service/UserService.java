@@ -16,10 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -91,8 +89,27 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public void updateUser(Long user_id, String name, String email, Map<String, String> role) {
+    public void updateUser(Long user_id, String name, String email, Map<String, String> form) {
+        User user = userRepository.findById(user_id).orElse(null);
+
+        if(name != null && name.length() != 0)
+            user.setUsername(name);
+        if(email != null && email.length() != 0)
+            user.setEmail(email);
+        Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
+
+        user.getRoles().clear();
+
+        for (String key : form.keySet()) {
+            if (roles.contains(key))
+                user.getRoles().add(Role.valueOf(key));
+        }
+
+        userRepository.save(user);
+    }
 
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

@@ -1,5 +1,6 @@
 package com.arman.site.controllers;
 
+import com.arman.site.models.Role;
 import com.arman.site.models.User;
 import com.arman.site.repository.UserRepository;
 import com.arman.site.service.UserService;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,18 +46,19 @@ public class AdminController {
 
         model.addAttribute("user", user);
         model.addAttribute("usr", userRepository.findById(user_id).orElse(null));
+        model.addAttribute("roles", Role.values());
 
         return "admin-update";
     }
 
     @PostMapping("/{user_id}")
-    public String updateUser(@AuthenticationPrincipal User user,
-                             @RequestParam String name,
-                             @RequestParam String email,
-                             @RequestParam Map<String, String> role,
+    public String updateUser(
+                             @RequestParam(required = false) String name,
+                             @RequestParam(required = false) String email,
+                             @RequestParam Map<String, String> form,
                              @PathVariable Long user_id) {
 
-        userService.updateUser(user_id, name, email, role);
+        userService.updateUser(user_id, name, email, form);
 
         return "redirect:/admin";
     }

@@ -58,7 +58,12 @@
   </style>
 </head>
 <body>
-<h1 style="text-align: center">Войти</h1>
+<h1 style="text-align: center">Login</h1>
+
+<div class="login-rows">
+    <a class="sign-in" th:href="@{/oauth2/authorization/google}">Login with Google</a>
+  </div>
+
 <div style="text-align: center; color: red;" th:if="${param.error}">
   Invalid username and password.
 </div>
@@ -66,12 +71,31 @@
   You have been logged out.
 </div>
 <form class="login" th:action="@{/login}" method="post">
+
+
   <div class="login-rows">
     <label class="login-label"> Name: <input type="text" name="username"/> </label>
   </div>
+
   <div class="login-rows">
     <label class="login-label"> Password: <input type="password" name="password"/> </label>
   </div>
+
+  <!--<div class="login-rows">
+    <label for="remember">
+      Remember Me
+    <input type="checkbox" id="remember" name="remember-me">
+    </label>
+  </div>-->
+
+  <div>
+    <input style="width: 25px; height: auto;" type="checkbox" id="remember" name="remember-me">
+    <label for="remember">Remember Me</label>
+  </div>
+
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+
   <div class="login-rows"><input class="login-button" type="submit" value="Sign In"/></div>
   <a class="sign-in" th:href="@{/registration}">Sign Up</a>
 </form>

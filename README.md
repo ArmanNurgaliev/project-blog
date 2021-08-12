@@ -4,16 +4,12 @@
 
 TODO
 - Authorization and authentication
-    - tokens
+    - jwt (?)
     - captcha
-    - oAuth2
-    - remember me
-- Add hidden csrf to post methods
-- Add sending notifications after replying to comments or posts
 - Validation
 
 In process
-- admin page (editing roles to users)
+    - oAuth2
 
 DONE
 - Login and sign up pages
@@ -24,6 +20,15 @@ DONE
 - Search by post title
 - Authorization and authentication 
     - password confirmation
+    - remember me
+    - csrf
+- admin page (editing roles to users)
 
 Problems
+- Oauth2 send an error invalid password and username 
+- Logout doesn't work with csrf
 - Chrome doesn't show pictures
+
+Possible improvements
+- Add sending notifications after replying to comments or posts
+- Insert name in replying comment
