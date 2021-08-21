@@ -39,9 +39,9 @@ public class ProfileController {
 
     @PostMapping("/edit")
     public String updateProfile(@AuthenticationPrincipal User user,
-                              @RequestParam String username,
-                              @RequestParam String email,
-                              @RequestParam String about) {
+                              @RequestParam(required = false) String username,
+                              @RequestParam(required = false) String email,
+                              @RequestParam(required = false) String about) {
 
         userService.updateProfile(user.getId(), username, email, about);
 

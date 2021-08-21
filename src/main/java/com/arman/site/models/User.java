@@ -2,10 +2,13 @@ package com.arman.site.models;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -18,8 +21,12 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Name can't be empty")
     private String username;
+    @Email(message = "Must be email")
+    @NotBlank(message = "Email can't be empty")
     private String email;
+    @Length(min = 1, message = "Password must have more than 1 symbol")
     private String password;
 
     @Transient
@@ -43,8 +50,6 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<SubComment> subComments;
 
-    @Enumerated(EnumType.STRING)
-    private AuthenticationProvider auth_provider;
 
     public User() {
     }
@@ -177,11 +182,4 @@ public class User implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
-    public AuthenticationProvider getAuth_provider() {
-        return auth_provider;
-    }
-
-    public void setAuth_provider(AuthenticationProvider auth_provider) {
-        this.auth_provider = auth_provider;
-    }
 }

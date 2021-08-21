@@ -77,10 +77,12 @@ public class UserService implements UserDetailsService {
 
     public void updateProfile(Long id, String username, String email, String about) {
         User user = userRepository.findById(id).orElse(null);
-
-        user.setUsername(username);
-        user.setEmail(email);
-        user.setAbout(about);
+        if (username != null && username.length() > 0)
+            user.setUsername(username);
+        if (email != null && email.length() > 0)
+            user.setEmail(email);
+        if (about != null && about.length() > 0)
+            user.setAbout(about);
 
         userRepository.save(user);
     }

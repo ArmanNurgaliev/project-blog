@@ -11,12 +11,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/blog")
@@ -53,7 +56,7 @@ public class BlogController {
     public String blogAdd(@AuthenticationPrincipal User user,
                           Model model) {
         model.addAttribute("user", user);
-
+        model.addAttribute("post", new Post());
         return "blog-add";
     }
 
@@ -65,7 +68,13 @@ public class BlogController {
                               @RequestParam String anons,
                               @RequestParam String full_text,
                               Model model) throws IOException {
-     //   model.addAttribute("user", user);
+        Map<String, String> postErrors = postService.validatePost(title, anons, full_text);
+        if (!postErrors.isEmpty()) {
+            for (String s: postErrors.keySet())
+                model.addAttribute(s, postErrors.get(s));
+            return "blog-add";
+        }
+
         postService.addPost(title, anons, full_text, user);
 
         storageService.store(files, title);
@@ -128,6 +137,7 @@ public class BlogController {
                                @RequestParam MultipartFile[] files,
                                @AuthenticationPrincipal User user,
                               Model model) throws IOException {
+
 
         postService.editPost(post_id, title, anons, full_text);
         storageService.store(files, title);

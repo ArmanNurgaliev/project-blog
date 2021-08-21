@@ -6,7 +6,6 @@ TODO
 - Authorization and authentication
     - jwt (?)
     - captcha
-- Validation
 
 In process
     - oAuth2
@@ -23,9 +22,9 @@ DONE
     - remember me
     - csrf
 - admin page (editing roles to users)
+- Validation of users
 
 Problems
-- Oauth2 send an error invalid password and username 
 - Logout doesn't work with csrf
 - Chrome doesn't show pictures
 

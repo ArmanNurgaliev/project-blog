@@ -4,6 +4,8 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +16,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title, anons, full_text;
+    private String title;
+    private String anons;
+    private String full_text;
 
     @OneToMany(mappedBy = "post")
     private Set<FileDB> files;

@@ -67,22 +67,24 @@
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
     <div class="login-rows">
-        <p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+      <!--  <p style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>-->
+        <p style="color:red" th:if="${emailError != null}" th:text="${emailError}"></p>
         <label for="email" class="login-label signup">Email:
             <input type="text" class="form-control" id="email" name="email" th:value="*{email}">
         </label>
     </div>
 
-    <p style="color:red" th:if="${usernameError != null}" th:text="${usernameError}"></p>
+    <p style="color:red" th:if="${usernameExist != null}" th:text="${usernameExist}"></p>
     <div class="login-rows">
-        <p style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+        <!--<p style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>-->
+        <p style="color:red" th:if="${usernameError != null}" th:text="${usernameError}"></p>
         <label class="login-label signup">Name:
             <input type="text" class="form-control" name="username" th:value="*{username}">
         </label>
     </div>
 
     <div class="login-rows">
-        <p style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        <p style="color:red" th:if="${passwordError != null}" th:text="${passwordError}"></p>
         <label class="login-label signup">Password:
             <input type="password" class="form-control" name="password" th:value="*{password}">
         </label>
@@ -91,7 +93,7 @@
     <p style="color:red" th:if="${confirmation != null}" th:text="${confirmation}"></p>
     <div class="login-rows">
         <p style="color:red" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></p>
-        <label class="login-label signup">Password:
+        <label class="login-label signup">Confirm password:
             <input type="password" class="form-control" name="confirmPassword">
         </label>
     </div>
