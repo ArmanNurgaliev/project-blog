@@ -9,6 +9,9 @@ TODO
 
 In process
     - oAuth2
+        
+        - No password after oauth2 login
+        - No access to add post after oauth2 login
 
 DONE
 - Login and sign up pages
@@ -25,7 +28,6 @@ DONE
 - Validation of users
 
 Problems
-- Logout doesn't work with csrf
 - Chrome doesn't show pictures
 
 Possible improvements

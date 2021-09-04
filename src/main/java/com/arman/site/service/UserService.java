@@ -1,10 +1,8 @@
 package com.arman.site.service;
 
-import com.arman.site.models.FileDB;
-import com.arman.site.models.Post;
-import com.arman.site.models.Role;
-import com.arman.site.models.User;
+import com.arman.site.models.*;
 import com.arman.site.repository.UserRepository;
+import org.hibernate.service.UnknownServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,8 +33,9 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        if (user == null)
-            throw new UsernameNotFoundException("User not found");
+
+        if (user == null) throw new UsernameNotFoundException("Username not found");
+
         return user;
     }
 
@@ -113,5 +112,24 @@ public class UserService implements UserDetailsService {
 
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+
+    public void createNewUserAfterOAuth2Login(String email, String username, AuthenticationProvider provider) {
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setRoles(Collections.singleton(Role.USER));
+        user.setEnabled(true);
+        user.setAuthProvider(provider);
+
+        userRepository.save(user);
+    }
+
+    public void updateUserAfterOAuth2Login(User userFromDB, String username, AuthenticationProvider provider) {
+        userFromDB.setUsername(username);
+        userFromDB.setAuthProvider(provider);
+
+        userRepository.save(userFromDB);
     }
 }

@@ -61,7 +61,7 @@
 <h1 style="text-align: center">Login</h1>
 
 <div class="login-rows">
-    <a class="sign-in" th:href="@{/oauth2/authorization/google}">Login with Google</a>
+    <a th:href="@{/oauth2/authorization/google}">Login with Google</a>
   </div>
 
 <div style="text-align: center; color: red;" th:if="${param.error}">

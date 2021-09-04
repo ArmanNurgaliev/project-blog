@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -50,6 +51,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<SubComment> subComments;
 
+    @Enumerated(EnumType.STRING)
+    private AuthenticationProvider authProvider;
 
     public User() {
     }
@@ -59,6 +62,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
     }
+
 
     public Long getId() {
         return id;
@@ -182,4 +186,11 @@ public class User implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProvider(AuthenticationProvider authProvider) {
+        this.authProvider = authProvider;
+    }
 }
