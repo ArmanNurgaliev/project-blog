@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -28,8 +29,9 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String adminPage(@AuthenticationPrincipal User user,
+    public String adminPage(Principal principal,
                             Model model) {
+        User user = userService.getUser(principal);
         model.addAttribute("user", user);
         model.addAttribute("users", userRepository.findAll());
 
@@ -37,10 +39,10 @@ public class AdminController {
     }
 
     @GetMapping("/{user_id}")
-    public String updateUser(@AuthenticationPrincipal User user,
+    public String updateUser(Principal principal,
                             @PathVariable Long user_id,
                              Model model) {
-
+        User user = userService.getUser(principal);
         model.addAttribute("user", user);
         model.addAttribute("usr", userRepository.findById(user_id).orElse(null));
         model.addAttribute("roles", Role.values());

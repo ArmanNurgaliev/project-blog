@@ -4,19 +4,18 @@ import com.arman.site.models.*;
 import com.arman.site.repository.SubCommentRepository;
 import com.arman.site.service.CommentService;
 import com.arman.site.service.PostService;
+import com.arman.site.service.UserService;
 import com.arman.site.service.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,17 +27,19 @@ public class BlogController {
     private PostService postService;
     private CommentService commentService;
     private SubCommentRepository subCommentRepository;
+    private UserService userService;
 
     @Autowired
-    public BlogController(StorageService storageService, PostService postService, CommentService commentService, SubCommentRepository subCommentRepository) {
+    public BlogController(StorageService storageService, PostService postService, CommentService commentService, SubCommentRepository subCommentRepository, UserService userService) {
         this.storageService = storageService;
         this.postService = postService;
         this.commentService = commentService;
         this.subCommentRepository = subCommentRepository;
+        this.userService = userService;
     }
 
     @GetMapping("")
-    public String blogMain(@AuthenticationPrincipal User user,
+    public String blogMain(Principal principal,
                            @RequestParam(required = false, defaultValue = "") String filter,
                            Model model) {
         Iterable<Post> posts;
@@ -46,6 +47,7 @@ public class BlogController {
             posts = postService.findAllByTitle(filter);
         else
             posts = postService.findAll();
+        User user = userService.getUser(principal);
         model.addAttribute("posts", posts);
         model.addAttribute("user", user);
         return "blog-main";
@@ -53,8 +55,9 @@ public class BlogController {
 
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/add")
-    public String blogAdd(@AuthenticationPrincipal User user,
+    public String blogAdd(Principal principal,
                           Model model) {
+        User user = userService.getUser(principal);
         model.addAttribute("user", user);
         model.addAttribute("post", new Post());
         return "blog-add";
@@ -62,7 +65,7 @@ public class BlogController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/add")
-    public String blogPostAdd(@AuthenticationPrincipal User user,
+    public String blogPostAdd(Principal principal,
                               @RequestParam MultipartFile[] files,
                               @RequestParam String title,
                               @RequestParam String anons,
@@ -74,7 +77,7 @@ public class BlogController {
                 model.addAttribute(s, postErrors.get(s));
             return "blog-add";
         }
-
+        User user = userService.getUser(principal);
         postService.addPost(title, anons, full_text, user);
 
         storageService.store(files, title);
@@ -84,7 +87,7 @@ public class BlogController {
 
     @GetMapping("/{post_id}")
     public String blogDetails(@PathVariable Long post_id,
-                              @AuthenticationPrincipal User user,
+                              Principal principal,
                               Model model) {
         /*if (!postRepository.existsById(id))
             return "redirect:/blog";
@@ -99,6 +102,7 @@ public class BlogController {
         }
         List<FileDB> files = storageService.load(post_id);
 
+        User user = userService.getUser(principal);
         model.addAttribute("files", files);
         model.addAttribute("user", user);
         model.addAttribute("post", post);
@@ -112,7 +116,7 @@ public class BlogController {
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{post_id}/edit")
     public String blogEdit(@PathVariable Long post_id,
-                           @AuthenticationPrincipal User user,
+                           Principal principal,
                            Model model) {
 
         Post post = postService.findById(post_id);
@@ -120,7 +124,7 @@ public class BlogController {
             return "redirect:/blog";
 
         List<FileDB> files = storageService.load(post_id);
-
+        User user = userService.getUser(principal);
         model.addAttribute("files", files);
         model.addAttribute("user", user);
         model.addAttribute("post", post);
@@ -135,7 +139,6 @@ public class BlogController {
                                @RequestParam String anons,
                                @RequestParam String full_text,
                                @RequestParam MultipartFile[] files,
-                               @AuthenticationPrincipal User user,
                               Model model) throws IOException {
 
 

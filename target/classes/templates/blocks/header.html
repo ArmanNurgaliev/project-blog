@@ -21,9 +21,9 @@
                 <li sec:authorize="isAuthenticated()" class="dropdown fs-3" style="margin: 0; list-style-type: none;">
                     <a style="color:white; text-decoration: none;" href="/" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true" sec:authentication="name">Username</a>
                     <ul class="dropdown-menu pre-scrollable" style="overflow-y: auto">
-                      <!--  <li><a th:href="@{/profile/{id}(id=${user.id})}">Profile</a></li>
+                        <li><a th:href="@{/profile/{id}(id=${user.id})}">Profile</a></li>
                         <li><a th:href="@{/blog/posts/{id}(id=${user.id})}">Posts</a></li>
-                        <li><a th:href="@{/profile/{id}/notifications(id=${user.id})}">Notifications</a></li>-->
+                        <li><a th:href="@{/profile/{id}/notifications(id=${user.id})}">Notifications</a></li>
                         <li><!--<a href="/logout">Logout</a>-->
                             <form action="/logout" method="post">
 

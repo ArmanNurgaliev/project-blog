@@ -31,7 +31,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         String email = oAuth2User.getEmail();
         User userFromDB = userService.getUserByEmail(email);
         String username = oAuth2User.getName();
-
         if (userFromDB == null) {
             userService.createNewUserAfterOAuth2Login(email, username, AuthenticationProvider.GOOGLE);
         }

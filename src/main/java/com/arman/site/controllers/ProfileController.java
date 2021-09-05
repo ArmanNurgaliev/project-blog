@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/profile")
 public class ProfileController {
@@ -19,30 +21,29 @@ public class ProfileController {
     }
 
     @GetMapping("/{user_id}")
-    public String profile(@AuthenticationPrincipal User currentUser,
+    public String profile(Principal principal,
                             @PathVariable Long user_id, Model model) {
         User user = userService.getUserById(user_id);
-
         model.addAttribute("user", user);
-        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("currentUser", userService.getUser(principal));
 
         return "profile";
     }
 
     @GetMapping("/edit")
-    public String editProfile(@AuthenticationPrincipal User user,
+    public String editProfile(Principal principal,
                               Model model) {
-        model.addAttribute("user", user);
+        model.addAttribute("user", userService.getUser(principal));
 
         return "profile-edit";
     }
 
     @PostMapping("/edit")
-    public String updateProfile(@AuthenticationPrincipal User user,
+    public String updateProfile(Principal principal,
                               @RequestParam(required = false) String username,
                               @RequestParam(required = false) String email,
                               @RequestParam(required = false) String about) {
-
+        User user = userService.getUser(principal);
         userService.updateProfile(user.getId(), username, email, about);
 
         return "redirect:/profile/" + user.getId();

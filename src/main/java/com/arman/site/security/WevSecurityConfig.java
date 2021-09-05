@@ -45,7 +45,7 @@ public class WevSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                .and()
                     .authorizeRequests()
-                    .antMatchers("/", "/registration", "/static/**", "/blog", "/blog/*", "/about", "/oauth2/**", "/oauth/authorize").permitAll()
+                    .antMatchers("/", "/registration", "/static/**", "/blog", "/blog/*", "/about", "/oauth2/**", "/oauth2/authorize").permitAll()
                    // .anyRequest().authenticated()
                 .and()
                     .formLogin()

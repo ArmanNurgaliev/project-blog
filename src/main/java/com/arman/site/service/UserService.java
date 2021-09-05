@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,7 @@ public class UserService implements UserDetailsService {
         savePhoto(user, file);
 
         user.setRoles(Collections.singleton(Role.USER));
+        user.setAuthProvider(AuthenticationProvider.LOCAL);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
 
@@ -132,4 +134,11 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(userFromDB);
     }
+
+    public User getUser(Principal principal) {
+        if (principal != null)
+            return userRepository.findByUsername(principal.getName());
+        return null;
+    }
+
 }
